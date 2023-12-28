@@ -6,7 +6,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     permissions:
-      issues:write
+      issues: write
     steps:
       - uses: wow-actions/duplicate-issue@v1
         with:
