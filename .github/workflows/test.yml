@@ -1,0 +1,12 @@
+name: Test automation
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: checking env
+        run: echo ${{ github.event_name }}
