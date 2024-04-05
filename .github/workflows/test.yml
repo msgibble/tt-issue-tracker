@@ -9,4 +9,4 @@ jobs:
       issues: write
     steps:
       - name: checking env
-        run: echo ${{ github.event.bodyText }}
+        run: echo ${{ github.event.comment.body }}
