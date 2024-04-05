@@ -10,5 +10,3 @@ jobs:
     steps:
       - name: checking env
         run: echo ${{ github.event_name }}
-        with:
-          command: test
