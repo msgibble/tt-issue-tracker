@@ -10,4 +10,4 @@ jobs:
     if: ${{ startsWith(github.event.comment.body, '/test') }}
     steps:
       - name: checking env
-        run: echo ${{ github.event.issue.url }}
+        run: echo ${{ github.event.comment.body }} | sed 's/^\/test \(.*\)$/\1/g'
