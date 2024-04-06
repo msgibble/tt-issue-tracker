@@ -10,5 +10,4 @@ jobs:
     if: ${{ startsWith(github.event.comment.body, '/test') }}
     steps:
       - name: setting repo
-        env:
-          REPO_NAME: x=`echo "${{ github.event.comment.body }}"`;y=${x%$'\n'*}; echo $y | sed 's/^\/test[[:space:]]\?\(.*\)/\1/g'
+        run: x=`echo "${{ github.event.comment.body }}"`;y=${x%$'\n'*}; echo $y | sed 's/^\/test[[:space:]]\?\(.*\)/\1/g'
