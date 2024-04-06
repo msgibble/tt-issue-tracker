@@ -9,7 +9,16 @@ jobs:
       issues: write
     if: ${{ startsWith(github.event.comment.body, '/test') }}
     steps:
-      - name: setting repo
+      - name: set repo name
         run: echo "REPO_NAME=$(x='${{ github.event.comment.body }}';y=${x%$'\n'*}; echo $y | sed 's/^\/test[[:space:]]\?\(.*\)/\1/g')" >> $GITHUB_ENV
-      - name: Test
+      - name: output repo name
         run: echo $REPO_NAME
+      - name: validate repo name
+        run: echo $REPO_NAME
+      - name: copy issue
+        run: |
+          echo "${{ github.event.issue.title }}"
+          echo "${{ github.event.issue.body }}"
+          echo "${{ github.event.issue.comments }}"
+          echo "${{ github.event.issue.milestone }}"
+
