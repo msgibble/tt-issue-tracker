@@ -27,4 +27,4 @@ jobs:
           gh issue create --title "${{ github.event.issue.title }}" --body "${{ github.event.issue.body }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ REPO_NAME }}
+          GH_REPO: msgibble/tt-server
