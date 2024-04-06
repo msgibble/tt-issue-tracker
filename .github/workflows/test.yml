@@ -12,5 +12,3 @@ jobs:
       - name: setting repo
         env:
           REPO_NAME: x=`echo "${{ github.event.comment.body }}"`;y=${x%$'\n'*}; echo $y | sed 's/^\/test[[:space:]]\?\(.*\)/\1/g'
-      - name: printing repo
-        run: echo "$REPO_NAME"
