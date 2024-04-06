@@ -24,6 +24,7 @@ jobs:
           echo "${{ github.event.issue.milestone }}"
       - name: copy issue
         run: |
+          gh auth login --with-token
           gh issue create --title "${{ github.event.issue.title }}" --body "${{ github.event.issue.body }}"
         env:
           GH_TOKEN: "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"
