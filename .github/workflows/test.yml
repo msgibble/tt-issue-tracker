@@ -15,10 +15,12 @@ jobs:
         run: echo $REPO_NAME
       - name: validate repo name
         run: echo $REPO_NAME
+      - name: validate author
+        run: echo "${{ github.event.comment.author_association }}"
       - name: copy issue
         run: |
           echo "${{ github.event.issue.title }}"
           echo "${{ github.event.issue.body }}"
-          echo "${{ github.event.issue.comments }}"
+          echo "${{ github.event.issue.labels }}"
           echo "${{ github.event.issue.milestone }}"
 
