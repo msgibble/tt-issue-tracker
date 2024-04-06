@@ -17,10 +17,14 @@ jobs:
         run: echo $REPO_NAME
       - name: validate author
         run: echo "${{ github.event.comment.author_association }}"
-      - name: copy issue
+      - name: non-committing copy issue
         run: |
           echo "${{ github.event.issue.title }}"
           echo "${{ github.event.issue.body }}"
           echo "${{ github.event.issue.labels }}"
           echo "${{ github.event.issue.milestone }}"
-
+      - name: copy issue
+        run: |
+          gh issue create --title "${{ github.event.issue.title }}" --body "${{ github.event.issue.body }}" --repo $REPO_NAME
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
