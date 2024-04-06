@@ -6,7 +6,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     permissions:
-      issues: write
+      issues: write-all
     if: ${{ startsWith(github.event.comment.body, '/test') }}
     steps:
       - name: set repo name
