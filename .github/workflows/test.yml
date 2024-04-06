@@ -26,5 +26,5 @@ jobs:
         run: |
           gh issue create --title "${{ github.event.issue.title }}" --body "${{ github.event.issue.body }}"
         env:
-          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           GH_REPO: msgibble/tt-server
