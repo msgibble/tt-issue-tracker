@@ -31,9 +31,9 @@ jobs:
           echo "${{ github.event.issue.labels }}"
           echo "${{ github.event.issue.milestone }}"
           echo "${{ github.event.issue.number }}"
-          echo "${{ github.event.comment.issue_url }}"
-          echo "${{ github.event.comment.user.name }}"                    
-          echo "> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.comment.issue_url }}) by @${{ github.event.comment.user.name }}."
+          echo "${{ github.event.issue.html_url }}"
+          echo "${{ github.event.comment.user.login }}"                    
+          echo "> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) by @${{ github.event.comment.user.login }}."
       - name: copy issue
         run: |
           gh issue create --title "${{ github.event.issue.title }}" --body "${{ github.event.issue.body }}" --repo "$REPO_NAME"
