@@ -11,7 +11,7 @@ jobs:
       - name: set repo name
         run: echo "REPO_NAME=$(x='${{ github.event.comment.body }}';y=${x%$'\n'*}; echo $y | sed 's/^\/test[[:space:]]\?\(.*\)/\1/g')" >> $GITHUB_ENV
       - name: output repo name
-        run: echo $REPO_NAME | tr ' ' '#' | tr -t '\r\n' '$'
+        run: echo $REPO_NAME | tr ' \r\n' '#$$'
       - name: validate repo name
         run: echo $REPO_NAME
       - name: validate author
