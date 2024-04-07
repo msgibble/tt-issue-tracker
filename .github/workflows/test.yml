@@ -10,7 +10,10 @@ jobs:
     steps:
       - name: set repo name
         run: |
-          x=`echo "${{ github.event.comment.body }}" | head -1`; y=`echo $x | sed -E 's/^\/test[[:space:]]*(.*)$/\1/g' | tr -d '\r' | awk '{$1=$1};1'`; z=($y); a=`echo "${z[0]:-$DEFAULT_REPO}" | sed -E "s/^($DEFAULT_OWNER\/)?(.*)$/$DEFAULT_OWNER\/\2/g"`
+          x=`echo "${{ github.event.comment.body }}" | head -1`
+          y=`echo $x | sed -E 's/^\/test[[:space:]]*(.*)$/\1/g' | tr -d '\r' | awk '{$1=$1};1'`
+          z=($y)
+          a=`echo "${z[0]:-$DEFAULT_REPO}" | sed -E "s/^($DEFAULT_OWNER\/)?(.*)$/$DEFAULT_OWNER\/\2/g"`
           echo "REPO_NAME=$a" >> $GITHUB_ENV
         env:
           DEFAULT_OWNER: msgibble
