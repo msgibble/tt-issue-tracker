@@ -9,7 +9,7 @@ jobs:
     if: ${{ startsWith(github.event.comment.body, '/test') }}
     steps:
       - name: set repo name
-        run: echo "REPO_NAME=$(x='${{ github.event.comment.body }}';y=${x%$'\n'*}; echo $y | sed 's/^\/test[[:space:]]\?\(.*\)/\1/g') | tr --delete '\r'" >> $GITHUB_ENV
+        run: echo "REPO_NAME=$(x='${{ github.event.comment.body }}';y=${x%$'\n'*}; echo $y | sed 's/^\/test[[:space:]]\?\(.*\)/\1/g' | tr --delete '\r')" >> $GITHUB_ENV
       - name: output repo name
         run: echo $REPO_NAME | awk '{$1=$1};1' | tr -d '\r' | tr ' \r\n' '#$'
       - name: validate repo name
