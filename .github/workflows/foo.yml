@@ -14,7 +14,7 @@ jobs:
           echo "REPO_NAME=$x" >> $GITHUB_ENV
         env:
           DEFAULT_OWNER=msgibble
-          DEFAULT_REPO=${{ github.event.repository }}
+          DEFAULT_REPO=${{ github.event.repository.name }}
       - name: echo repo name
         run: echo $REPO_NAME
         
