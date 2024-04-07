@@ -9,9 +9,14 @@ jobs:
     if: ${{ startsWith(github.event.comment.body, '/test') }}
     steps:
       - name: set repo name
-        run: echo "REPO_NAME=$(x='${{ github.event.comment.body }}';y=${x%$'\n'*}; echo $y | sed -E 's/^\/test[[:space:]]*([[:space:]]msgibble\/)\\?(.*)$/msgibble\/\2/g' | tr --delete '\r')" >> $GITHUB_ENV
+        run: |
+          x=`echo ${{ github.event.comment.body }} | head -1`; y=`echo $x | sed -E 's/^\/test[[:space:]]*(.*)$/\1/g' | tr -d '\r' | awk '{$1=$1};1'`; z=($y); a=`echo "${z[0]:-$DEFAULT_REPO}" | sed -E "s/^($DEFAULT_OWNER\/)?(.*)$/$DEFAULT_OWNER\/\2/g"`
+          echo "REPO_NAME=$a" >> $GITHUB_ENV
+        env:
+          DEFAULT_OWNER: msgibble
+          DEFAULT_REPO: ${{ github.event.repository.name }}
       - name: output repo name
-        run: echo $REPO_NAME | awk '{$1=$1};1' | tr -d '\r' | tr ' \r\n' '#$'
+        run: echo $REPO_NAME
       - name: validate repo name
         run: echo $REPO_NAME
       - name: validate author
