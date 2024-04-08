@@ -8,6 +8,9 @@ jobs:
     permissions: write-all
     if: ${{ startsWith(github.event.comment.body, '/test') }}
     steps:
+      - name: validate author
+        if: ${{ github.event.comment.author_association }} != "OWNER1"
+        run: echo "::error ${{ github.event.comment.author_association }}::Comment author is not OWNER"
       - name: set repo name
         run: |
           x=`echo "${{ github.event.comment.body }}" | head -1`
@@ -24,9 +27,6 @@ jobs:
           gh repo view "$REPO_NAME"
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      - name: validate author
-        if: ${{ github.event.comment.author_association }} != "OWNER"
-        run: echo "::error ${{ github.event.comment.author_association }}::Comment author is not OWNER"
       - name: copy issue
         run: |
           new_issue_body="${{ github.event.issue.body }}"$'\n'
