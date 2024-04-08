@@ -34,7 +34,7 @@ jobs:
           new_issue_body="${{ github.event.issue.body }}"$'\n'
           new_issue_body+="> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) by @${{ github.event.comment.user.login }}."
 
-          gh issue create --title "${{ github.event.issue.title }}" --body "$new_issue_body" --label "`echo ${{ join(github.event.issue.labels.*.name, ',') }}`" --repo "$REPO_NAME"
+          gh issue create --title "${{ github.event.issue.title }}" --body "$new_issue_body" --label "`echo ${{ join(github.event.issue.labels.*.name, ',') }}`" --milestone "${{ github.event.issue.milestone.name }}" --repo "$REPO_NAME"
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           
