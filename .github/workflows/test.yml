@@ -36,7 +36,7 @@ jobs:
           echo "ISSUE_BODY_APPENDIX=> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) by @${{ github.event.comment.user.login }}." >> $GITHUB_ENV
       - name: copy issue
         run: |
-          new_issue_body=${{ github.event.issue.body }}
+          new_issue_body="${{ github.event.issue.body }}"
           new_issue_body+="\n"
           new_issue_body+=$ISSUE_BODY_APPENDIX
           gh issue create --title "${{ github.event.issue.title }}" --body "$new_issue_body" --repo "$REPO_NAME"
