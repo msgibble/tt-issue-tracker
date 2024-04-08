@@ -15,7 +15,7 @@ jobs:
           z=($y)
           a=`echo "${z[0]:-$DEFAULT_REPO}" | sed -E "s/^($DEFAULT_OWNER\/)?(.*)$/$DEFAULT_OWNER\/\2/g"`
           echo "REPO_NAME=$a" >> $GITHUB_ENV
-          echo "Repository name set to $REPO_NAME"
+          echo "Repository name set to $a"
         env:
           DEFAULT_OWNER: msgibble
           DEFAULT_REPO: ${{ github.event.repository.name }}
@@ -24,11 +24,13 @@ jobs:
           gh repo view "$REPO_NAME"
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: validate author
+        if: ${{ github.event.comment.author_association }} != "OWNER"
+        run: echo "::error ${{ github.event.comment.author_association }}::Comment author is not OWNER"
       - name: copy issue
         run: |
-          echo "ISSUE_BODY_APPENDIX=> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) by @${{ github.event.comment.user.login }}." >> $GITHUB_ENV
           new_issue_body="${{ github.event.issue.body }}"$'\n'
-          new_issue_body+=$ISSUE_BODY_APPENDIX
+          new_issue_body+="> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) by @${{ github.event.comment.user.login }}."
           gh issue create --title "${{ github.event.issue.title }}" --body "$new_issue_body" --repo "$REPO_NAME"
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
