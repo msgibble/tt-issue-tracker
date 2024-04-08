@@ -9,7 +9,7 @@ jobs:
     if: ${{ startsWith(github.event.comment.body, '/test') }}
     steps:
       - name: validate author
-        if: ${{ github.event.comment.author_association }} != "OWNER"
+        if: ${{ github.event.comment.author_association != "OWNER" }}
         run: |
           echo "::error ${{ github.event.comment.author_association }}::Comment author is not OWNER"
           exit 1
