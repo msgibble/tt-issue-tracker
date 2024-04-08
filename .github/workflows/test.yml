@@ -20,13 +20,10 @@ jobs:
           DEFAULT_OWNER: msgibble
           DEFAULT_REPO: ${{ github.event.repository.name }}
       - name: validate repo name
-        run:
+        run: |
           gh repo view "$REPO_NAME"
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      - name: validate author
-        if: ${{ github.event.comment.author_association }} != "OWNER"
-        run: echo "::error ${{ github.event.comment.author_association }}::Comment author is not OWNER"
       - name: copy issue
         run: |
           echo "ISSUE_BODY_APPENDIX=> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) by @${{ github.event.comment.user.login }}." >> $GITHUB_ENV
