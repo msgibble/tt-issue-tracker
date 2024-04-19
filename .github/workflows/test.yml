@@ -4,7 +4,7 @@ on:
     types: [created]
 jobs:
   env:
-    COMMAND_NAME: /test  
+    COMMAND_NAME: '/test'  
   run:
     runs-on: ubuntu-latest
     permissions: write-all
