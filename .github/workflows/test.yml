@@ -2,10 +2,10 @@ name: Test automation
 on:
   issue_comment:
     types: [created]
+env:
+  COMMAND_NAME: '/test'  
 jobs:
   run:
-    env:
-      COMMAND_NAME: '/test'  
     runs-on: ubuntu-latest
     permissions: write-all
     if: ${{ startsWith(github.event.comment.body, COMMAND_NAME) }}
