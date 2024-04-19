@@ -13,7 +13,7 @@ jobs:
       - name: validate author
         if: ${{ github.event.comment.author_association != 'OWNER' }}
         run: |
-          echo ${{ $env.COMMAND_NAME }}
+          echo ${{ env.COMMAND_NAME }}
           echo "::error ${{ github.event.comment.author_association }}::Comment author is not OWNER"
           exit 1
       - name: set repo name
