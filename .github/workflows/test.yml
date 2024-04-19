@@ -2,8 +2,6 @@ name: Test automation
 on:
   issue_comment:
     types: [created]
-env:
-  COMMAND_NAME: '/test'  
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -17,7 +15,6 @@ jobs:
           exit 1
       - name: set repo name
         run: |
-          echo ${{ env.COMMAND_NAME }}
           x=`echo "${{ github.event.comment.body }}" | head -1`
           y=`echo $x | sed -E 's/^\/test[[:space:]]*(.*)$/\1/g' | tr -d '\r' | awk '{$1=$1};1'`
           z=($y)
