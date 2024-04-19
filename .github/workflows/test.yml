@@ -8,11 +8,12 @@ jobs:
   run:
     runs-on: ubuntu-latest
     permissions: write-all
-    if: ${{ startsWith(github.event.comment.body, "$env.COMMAND_NAME") }}
+    if: ${{ startsWith(github.event.comment.body, '/test') }}
     steps:
       - name: validate author
         if: ${{ github.event.comment.author_association != 'OWNER' }}
         run: |
+          echo ${{ $env.COMMAND_NAME }}
           echo "::error ${{ github.event.comment.author_association }}::Comment author is not OWNER"
           exit 1
       - name: set repo name
