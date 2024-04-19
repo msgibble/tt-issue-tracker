@@ -3,9 +3,9 @@ on:
   issue_comment:
     types: [created]
 jobs:
-  env:
-    COMMAND_NAME: '/test'  
   run:
+    env:
+      COMMAND_NAME: '/test'  
     runs-on: ubuntu-latest
     permissions: write-all
     if: ${{ startsWith(github.event.comment.body, $COMMAND_NAME) }}
