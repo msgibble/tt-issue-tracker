@@ -13,11 +13,11 @@ jobs:
       - name: validate author
         if: ${{ github.event.comment.author_association != 'OWNER' }}
         run: |
-          echo ${{ env.COMMAND_NAME }}
           echo "::error ${{ github.event.comment.author_association }}::Comment author is not OWNER"
           exit 1
       - name: set repo name
         run: |
+          echo ${{ env.COMMAND_NAME }}
           x=`echo "${{ github.event.comment.body }}" | head -1`
           y=`echo $x | sed -E 's/^\/test[[:space:]]*(.*)$/\1/g' | tr -d '\r' | awk '{$1=$1};1'`
           z=($y)
