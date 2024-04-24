@@ -13,6 +13,8 @@ jobs:
         run: |
           echo "Assigning to ${{ github.event.comment.user.login }}"
           gh issue edit ${{ github.event.issue.number }} --repo "${{ github.event.repository.full_name }}" --add-assignee "${{ github.event.comment.user.login }}"
+        env:
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: set repo name
         run: |
           x=`echo "${{ github.event.comment.body }}" | head -1`
