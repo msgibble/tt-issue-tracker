@@ -11,7 +11,7 @@ jobs:
       - name: update assignee
         if: ${{ !contains(github.event.issue.assignees.*.login, github.event.comment.user.login) }}
         run: |
-          echo "Assigning to ${{ github.event.comment.user.login }}
+          echo "Assigning to ${{ github.event.comment.user.login }}"
           gh issue edit ${{ github.event.issue.number }} --repo "${{ github.event.repository.full_name }}" --add-assignee "${{ github.event.comment.user.login }}"
       - name: set repo name
         run: |
