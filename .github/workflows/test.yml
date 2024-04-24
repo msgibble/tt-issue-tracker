@@ -9,6 +9,7 @@ jobs:
     if: ${{ startsWith(github.event.comment.body, '/test') }}
     steps:
       - name: update assignee
+        if: ${{ !contains(github.event.issue.assignees.*.login, github.event.comment.user.login) }}
         run: |
           echo "::error ${{ github.event.issue.assignees.*.login }}"
           echo "${{ github.event.comment.user.login }}
