@@ -17,6 +17,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: set repo name
+        if: ${{ startsWith(env.COMMENT_BODY, '/test') }}
         run: |
           x=`echo "$COMMENT_BODY" | head -1`
           y=`echo $x | sed -E 's/^\/test[[:space:]]*(.*)$/\1/g' | tr -d '\r' | awk '{$1=$1};1'`
@@ -28,11 +29,13 @@ jobs:
           DEFAULT_OWNER: msgibble
           DEFAULT_REPO: ${{ github.event.repository.name }}
       - name: validate repo name
+        if: ${{ startsWith(env.COMMENT_BODY, '/test') }}
         run: |
           gh repo view "$REPO_NAME"
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: copy issue
+        if: ${{ startsWith(env.COMMENT_BODY, '/test') }}
         run: |
           new_issue_body="$ISSUE_BODY"$'\n'
           new_issue_body+="> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) by @${{ github.event.comment.user.login }}."
