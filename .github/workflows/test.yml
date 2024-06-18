@@ -17,7 +17,7 @@ jobs:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: set repo name
         run: |
-          x=`echo "${{ github.event.comment.body }}" | head -1`
+          x=`echo "$COMMENT_BODY" | head -1`
           y=`echo $x | sed -E 's/^\/test[[:space:]]*(.*)$/\1/g' | tr -d '\r' | awk '{$1=$1};1'`
           z=($y)
           a=`echo "${z[0]:-$DEFAULT_REPO}" | sed -E "s/^($DEFAULT_OWNER\/)?(.*)$/$DEFAULT_OWNER\/\2/g"`
@@ -26,6 +26,7 @@ jobs:
         env:
           DEFAULT_OWNER: msgibble
           DEFAULT_REPO: ${{ github.event.repository.name }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
       - name: validate repo name
         run: |
           gh repo view "$REPO_NAME"
@@ -36,8 +37,10 @@ jobs:
           new_issue_body="$ISSUE_BODY"$'\n'
           new_issue_body+="> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) by @${{ github.event.comment.user.login }}."
 
-          gh issue create --title "${{ github.event.issue.title }}" --body "$new_issue_body" --label "`echo ${{ join(github.event.issue.labels.*.name, ',') }}`" --milestone "${{ github.event.issue.milestone.title }}" --assignee "${{ github.event.comment.user.login }}" --repo "$REPO_NAME"
+          gh issue create --title "$ISSUE_TITLE" --body "$new_issue_body" --label "`echo ${{ join(github.event.issue.labels.*.name, ',') }}`" --milestone "$MILESTONE_TITLE" --assignee "${{ github.event.comment.user.login }}" --repo "$REPO_NAME"
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          MILESTONE_TITLE: ${{ github.event.issue.milestone.title }}
           
