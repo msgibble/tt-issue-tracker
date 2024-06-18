@@ -2,8 +2,6 @@ name: Test automation
 on:
   issue_comment:
     types: [created]
-env:
-  COMMENT_BODY: ${{ github.event.comment.body }}    
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -15,6 +13,7 @@ jobs:
           echo "Assigning to ${{ github.event.comment.user.login }}"
           gh issue edit ${{ github.event.issue.number }} --repo "${{ github.event.repository.full_name }}" --add-assignee "${{ github.event.comment.user.login }}"
         env:
+          COMMENT_BODY: ${{ github.event.comment.body }}    
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: set repo name
         if: ${{ startsWith(COMMENT_BODY, '/test') }}
