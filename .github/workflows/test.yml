@@ -2,13 +2,13 @@ name: Test automation
 on:
   issue_comment:
     types: [created]
+env:
+  COMMENT_BODY: ${{ github.event.comment.body }}    
 jobs:
   run:
     runs-on: ubuntu-latest
     permissions: write-all
-    env:
-      COMMENT_BODY: ${{ github.event.comment.body }}    
-    if: ${{ startsWith($COMMENT_BODY, '/test') }}
+    if: ${{ startsWith(COMMENT_BODY, '/test') }}
     steps:
       - name: update assignee
         if: ${{ !contains(github.event.issue.assignees.*.login, github.event.comment.user.login) }}
