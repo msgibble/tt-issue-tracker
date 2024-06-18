@@ -33,7 +33,7 @@ jobs:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: copy issue
         run: |
-          new_issue_body=`sed s'/"/\x22/g' <<<'$ISSUE_BODY'`
+          new_issue_body=`sed s'/"/\x22/g' <<<"$ISSUE_BODY"`
           new_issue_body+="> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) by @${{ github.event.comment.user.login }}."
 
           gh issue create --title "${{ github.event.issue.title }}" --body "$new_issue_body" --label "`echo ${{ join(github.event.issue.labels.*.name, ',') }}`" --milestone "${{ github.event.issue.milestone.title }}" --assignee "${{ github.event.comment.user.login }}" --repo "$REPO_NAME"
