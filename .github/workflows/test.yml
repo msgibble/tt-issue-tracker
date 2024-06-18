@@ -6,14 +6,14 @@ jobs:
   run:
     runs-on: ubuntu-latest
     permissions: write-all
+    if: ${{ startsWith(github.event.comment.body, '/test') }}
     steps:
       - name: update assignee
-        if: ${{ startsWith(COMMENT_BODY, '/test') && !contains(github.event.issue.assignees.*.login, github.event.comment.user.login) }}
+        if: ${{ !contains(github.event.issue.assignees.*.login, github.event.comment.user.login) }}
         run: |
           echo "Assigning to ${{ github.event.comment.user.login }}"
           gh issue edit ${{ github.event.issue.number }} --repo "${{ github.event.repository.full_name }}" --add-assignee "${{ github.event.comment.user.login }}"
         env:
-          COMMENT_BODY: ${{ github.event.comment.body }}    
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: set repo name
         if: ${{ startsWith(COMMENT_BODY, '/test') }}
@@ -27,14 +27,13 @@ jobs:
         env:
           DEFAULT_OWNER: msgibble
           DEFAULT_REPO: ${{ github.event.repository.name }}
+          COMMENT_BODY: ${{ github.event.comment.body }}    
       - name: validate repo name
-        if: ${{ startsWith(COMMENT_BODY, '/test') }}
         run: |
           gh repo view "$REPO_NAME"
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: copy issue
-        if: ${{ startsWith(COMMENT_BODY, '/test') }}
         run: |
           new_issue_body="$ISSUE_BODY"$'\n'
           new_issue_body+="> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) by @${{ github.event.comment.user.login }}."
