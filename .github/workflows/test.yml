@@ -33,7 +33,7 @@ jobs:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: copy issue
         run: |
-          new_issue_body=`echo "${{ github.event.issue.body }}" | sed -E s'/"/a/g'`
+          new_issue_body=`echo "${{ github.event.issue.body }}" | sed s'/"/a/g'`
 
           gh issue create --title "${{ github.event.issue.title }}" --body "$new_issue_body" --label "`echo ${{ join(github.event.issue.labels.*.name, ',') }}`" --milestone "${{ github.event.issue.milestone.title }}" --assignee "${{ github.event.comment.user.login }}" --repo "$REPO_NAME"
         env:
