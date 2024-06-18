@@ -6,7 +6,9 @@ jobs:
   run:
     runs-on: ubuntu-latest
     permissions: write-all
-    if: ${{ startsWith(github.event.comment.body, '/test') }}
+    env:
+      COMMENT_BODY: ${{ github.event.comment.body }}    
+    if: ${{ startsWith(COMMENT_BODY, '/test') }}
     steps:
       - name: update assignee
         if: ${{ !contains(github.event.issue.assignees.*.login, github.event.comment.user.login) }}
@@ -26,7 +28,6 @@ jobs:
         env:
           DEFAULT_OWNER: msgibble
           DEFAULT_REPO: ${{ github.event.repository.name }}
-          COMMENT_BODY: ${{ github.event.comment.body }}
       - name: validate repo name
         run: |
           gh repo view "$REPO_NAME"
