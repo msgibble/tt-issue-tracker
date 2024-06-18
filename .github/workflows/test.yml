@@ -6,10 +6,11 @@ jobs:
   run:
     runs-on: ubuntu-latest
     permissions: write-all
-    if: ${{ startsWith(github.event.comment.body, '/test') }}
+    env:
+      COMMENT_BODY: ${{ github.event.comment.body }}    
     steps:
       - name: update assignee
-        if: ${{ !contains(github.event.issue.assignees.*.login, github.event.comment.user.login) }}
+        if: ${{ startsWith(env.COMMENT_BODY, '/test') && !contains(github.event.issue.assignees.*.login, github.event.comment.user.login) }}
         run: |
           echo "Assigning to ${{ github.event.comment.user.login }}"
           gh issue edit ${{ github.event.issue.number }} --repo "${{ github.event.repository.full_name }}" --add-assignee "${{ github.event.comment.user.login }}"
@@ -26,7 +27,6 @@ jobs:
         env:
           DEFAULT_OWNER: msgibble
           DEFAULT_REPO: ${{ github.event.repository.name }}
-          COMMENT_BODY: ${{ github.event.comment.body }}    
       - name: validate repo name
         run: |
           gh repo view "$REPO_NAME"
