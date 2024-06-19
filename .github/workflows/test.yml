@@ -35,7 +35,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: determine labels
-        if: ${{ startsWith(env.COMMENT_BODY, '/test') && env.REPO_NAME != env.DEFAULT_REPO }}
+        if: ${{ startsWith(env.COMMENT_BODY, '/test') }}
         run: |
           array_one=${{ (20 30 40 50)
           array_two=(10 20 30 80 100 110 40)
