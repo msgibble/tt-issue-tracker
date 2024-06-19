@@ -39,7 +39,7 @@ jobs:
         run: |
           array_one=${{ github.event.issue.labels.*.name }}
           echo "${array_one[*]}"
-          array_two=`gh label list --repo "$REPO_NAME"`
+          array_two=`gh label list --repo "$REPO_NAME" --json name --jq '[.[].name]'`
           echo "${array_two[*]}"
           IFS=$'\n'; set -f
           intersection=($(comm -12 <(
