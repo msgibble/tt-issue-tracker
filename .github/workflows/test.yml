@@ -37,8 +37,10 @@ jobs:
       - name: determine labels
         if: ${{ startsWith(env.COMMENT_BODY, '/test') && env.REPO_NAME != env.DEFAULT_REPO }}
         run: |
-          array_one=(20 30 40 50)
-          array_two=(10 20 30 80 100 110 40)
+          array_one=${{ github.event.issue.labels.*.name }}
+          echo "${array_one[*]}"
+          array_two=`gh labels list --repo "$REPO_NAME"`
+          echo "${array_two[*]}"
           IFS=$'\n'; set -f
           intersection=($(comm -12 <(
            printf '%s\n' "${array_one[@]}" | sort) <(
