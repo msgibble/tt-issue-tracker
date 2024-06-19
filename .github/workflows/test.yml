@@ -44,7 +44,7 @@ jobs:
            printf '%s\n' "${array_one[@]}" | sort) <(
            printf '%s\n' "${array_two[@]}" | sort)))
 
-          echo $intersection
+          echo "${intersection[*]}"
       - name: copy issue
         if: ${{ startsWith(env.COMMENT_BODY, '/test') }}
         run: |
