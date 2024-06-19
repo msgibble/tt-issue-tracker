@@ -47,6 +47,8 @@ jobs:
            printf '%s\n' "${array_two[@]}" | sort)))
 
           echo "${intersection[*]}"
+        env:
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: copy issue
         if: ${{ startsWith(env.COMMENT_BODY, '/test') }}
         run: |
