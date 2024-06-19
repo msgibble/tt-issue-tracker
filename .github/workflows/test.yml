@@ -34,12 +34,23 @@ jobs:
           gh repo view "$REPO_NAME"
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: determine labels
+        if: ${{ startsWith(env.COMMENT_BODY, '/test') && env.REPO_NAME != env.DEFAULT_REPO}}
+        run: |
+          array_one=${{ (20 30 40 50)
+          array_two=(10 20 30 80 100 110 40)
+          IFS=$'\n'; set -f
+          intersection=($(comm -12 <(
+           printf '%s\n' "${array_one[@]}" | sort) <(
+           printf '%s\n' "${array_two[@]}" | sort)))
+
+          echo $intersection
       - name: copy issue
         if: ${{ startsWith(env.COMMENT_BODY, '/test') }}
         run: |
           new_issue_body="$ISSUE_BODY"$'\n'
           new_issue_body+="> This issue was copied from [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) by @${{ github.event.comment.user.login }}."
-
+          
           gh issue create --title "$ISSUE_TITLE" --body "$new_issue_body" --label "`echo ${{ join(github.event.issue.labels.*.name, ',') }}`" --milestone "$MILESTONE_TITLE" --assignee "${{ github.event.comment.user.login }}" --repo "$REPO_NAME"
         env:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
